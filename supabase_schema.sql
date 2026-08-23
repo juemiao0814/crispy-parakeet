@@ -33,6 +33,7 @@ alter table admins enable row level security;
 alter table submissions enable row level security;
 
 -- 前台表单：允许任何人新增一条申请记录，但不允许查看/修改别人的记录
+drop policy if exists "public can submit" on submissions;
 create policy "public can submit" on submissions
   for insert
   to anon
