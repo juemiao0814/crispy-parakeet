@@ -1,0 +1,1 @@
+function login(){let u=document.getElementById("user").value;let p=document.getElementById("pass").value;if(u=="admin"&&p=="123456"){document.querySelector(".login").style.display="none";document.getElementById("panel").style.display="block";}else{alert("账号或密码错误");}}
