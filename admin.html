@@ -1,0 +1,68 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>后台管理</title><link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+</head>
+<body>
+
+<div class="box" id="loginBox">
+  <img src="images/logo.png" class="login-logo" alt="礼诚天下">
+  <h1>管理员登录</h1>
+  <input id="user" placeholder="账号">
+  <input id="pass" type="password" placeholder="密码">
+  <button onclick="login()">登录</button>
+  <p id="tip"></p>
+</div>
+
+<div id="dashboard" style="display:none">
+  <header class="admin-header">
+    <div class="brand"><img src="images/logo.png" class="logo" alt="礼诚天下"><h2>招商管理中心</h2></div>
+    <div>当前账号：<span id="curUser"></span> <button class="ghost-btn" onclick="logout()">退出登录</button></div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="data" onclick="switchTab('data',this)">招商数据</button>
+    <button class="tab-btn" data-tab="account" onclick="switchTab('account',this)">账号设置</button>
+    <button class="tab-btn" id="adminsTabBtn" data-tab="admins" onclick="switchTab('admins',this)">管理员管理</button>
+  </div>
+
+  <div id="tab-data" class="tab-content box">
+    <h3>供应商 / 代理申请信息</h3>
+    <div class="filter-bar">
+      <button onclick="filterData('all')">全部</button>
+      <button onclick="filterData('supplier')">供应商</button>
+      <button onclick="filterData('agent')">代理</button>
+    </div>
+    <table id="dataTable">
+      <thead><tr><th>类型</th><th>提交时间</th><th>详情</th><th>状态</th></tr></thead>
+      <tbody id="dataTableBody"></tbody>
+    </table>
+  </div>
+
+  <div id="tab-account" class="tab-content box" style="display:none">
+    <h3>修改密码</h3>
+    <input id="oldPass" type="password" placeholder="当前密码">
+    <input id="newPass" type="password" placeholder="新密码（至少6位）">
+    <input id="newPass2" type="password" placeholder="确认新密码">
+    <button onclick="changePassword()">保存修改</button>
+    <p id="pwTip"></p>
+  </div>
+
+  <div id="tab-admins" class="tab-content box" style="display:none">
+    <h3>添加管理员</h3>
+    <input id="newAdminUser" placeholder="新管理员账号">
+    <input id="newAdminPass" placeholder="初始密码（至少6位）">
+    <select id="newAdminRole">
+      <option value="staff">普通管理员（仅查看/处理招商数据）</option>
+      <option value="super">超级管理员（可管理管理员账号）</option>
+    </select>
+    <button onclick="addAdmin()">添加</button>
+    <p id="adminTip"></p>
+    <h3>管理员列表</h3>
+    <ul id="adminList"></ul>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="script.js"></script>
+</body></html>
