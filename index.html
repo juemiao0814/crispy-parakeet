@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>招商代理合作平台</title>
+<style>
+  :root{
+    --primary:#0B2D52;
+    --primary-light:#14406e;
+    --primary-dark:#081f3a;
+    --accent:#C89B3C;
+    --accent-light:#e0c07a;
+    --bg:#F5F6F8;
+    --card:#FFFFFF;
+    --text:#1B2733;
+    --text-secondary:#5A6B7B;
+    --text-muted:#8B97A3;
+    --border:#E1E5EA;
+    --success:#2E7D32;
+    --success-bg:#E8F5E9;
+    --danger:#C62828;
+    --danger-bg:#FDECEA;
+    --warning:#B7791F;
+    --warning-bg:#FFF6E5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"PingFang SC","Microsoft YaHei","Segoe UI",Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+  }
+  a{color:inherit;text-decoration:none;}
+  .container{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  /* Header */
+  header{
+    background:var(--primary);
+    color:#fff;
+    position:sticky;top:0;z-index:100;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;max-width:1080px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;letter-spacing:0.5px;}
+  .brand .mark{
+    width:36px;height:36px;border-radius:6px;background:var(--accent);
+    display:flex;align-items:center;justify-content:center;color:var(--primary-dark);font-weight:800;font-size:16px;
+  }
+  .header-actions{display:flex;align-items:center;gap:16px;font-size:14px;}
+  .lang-switch{
+    display:flex;border:1px solid rgba(255,255,255,0.35);border-radius:6px;overflow:hidden;
+  }
+  .lang-switch button{
+    background:transparent;border:none;color:#fff;padding:6px 12px;cursor:pointer;font-size:13px;
+    opacity:0.7;
+  }
+  .lang-switch button.active{background:var(--accent);color:var(--primary-dark);opacity:1;font-weight:600;}
+  .admin-entry{
+    color:#fff;opacity:0.85;font-size:13px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.4);
+    padding-bottom:1px;
+  }
+  .admin-entry:hover{opacity:1;}
+
+  /* Hero */
+  .hero{
+    background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 60%,var(--primary-dark) 100%);
+    color:#fff;padding:64px 24px 72px;
+  }
+  .hero-inner{max-width:1080px;margin:0 auto;}
+  .hero-eyebrow{
+    display:inline-block;color:var(--accent-light);font-size:13px;letter-spacing:2px;
+    text-transform:uppercase;margin-bottom:14px;font-weight:600;
+  }
+  .hero h1{font-size:34px;font-weight:700;max-width:640px;margin-bottom:16px;}
+  .hero p{color:rgba(255,255,255,0.78);max-width:560px;font-size:15px;}
+
+  /* Main sections */
+  main{max-width:1080px;margin:-40px auto 0;padding:0 24px 64px;}
+  .card{
+    background:var(--card);border:1px solid var(--border);border-radius:10px;
+    padding:36px;box-shadow:0 4px 16px rgba(15,45,82,0.06);
+  }
+  .form-card{margin-bottom:32px;}
+  .section-title{font-size:20px;font-weight:700;color:var(--primary);margin-bottom:6px;}
+  .section-sub{color:var(--text-secondary);font-size:14px;margin-bottom:28px;}
+
+  .type-toggle{display:flex;gap:12px;margin-bottom:26px;}
+  .type-option{
+    flex:1;border:1.5px solid var(--border);border-radius:8px;padding:14px 16px;cursor:pointer;
+    transition:all .15s;
+  }
+  .type-option.selected{border-color:var(--primary);background:#EEF3F9;}
+  .type-option .t-title{font-weight:700;color:var(--primary);font-size:15px;margin-bottom:2px;}
+  .type-option .t-desc{font-size:12px;color:var(--text-secondary);}
+
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field.full{grid-column:1 / -1;}
+  label{font-size:13px;font-weight:600;color:var(--text);}
+  label .opt{color:var(--text-muted);font-weight:400;}
+  label .req{color:var(--danger);}
+  input[type=text],input[type=tel],select{
+    height:42px;border:1px solid var(--border);border-radius:6px;padding:0 12px;font-size:14px;
+    background:#fff;color:var(--text);outline:none;transition:border-color .15s;
+  }
+  input:focus,select:focus{border-color:var(--primary);}
+  .error-msg{color:var(--danger);font-size:12px;display:none;}
+  .field.invalid input,.field.invalid select{border-color:var(--danger);}
+  .field.invalid .error-msg{display:block;}
+
+  .submit-row{margin-top:30px;display:flex;align-items:center;gap:16px;}
+  .btn-primary{
+    background:var(--primary);color:#fff;border:none;border-radius:6px;padding:13px 32px;
+    font-size:15px;font-weight:600;cursor:pointer;transition:background .15s;
+  }
+  .btn-primary:hover{background:var(--primary-light);}
+  .btn-secondary{
+    background:#fff;color:var(--primary);border:1px solid var(--primary);border-radius:6px;padding:12px 28px;
+    font-size:14px;font-weight:600;cursor:pointer;
+  }
+  .btn-secondary:hover{background:#EEF3F9;}
+  .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text-secondary);border-radius:6px;
+    padding:8px 14px;font-size:13px;cursor:pointer;}
+  .btn-ghost:hover{background:var(--bg);}
+  .btn-danger-outline{background:transparent;border:1px solid var(--danger);color:var(--danger);border-radius:6px;
+    padding:6px 12px;font-size:12px;cursor:pointer;}
+
+  /* Contact card */
+  .contact-card{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .contact-item{display:flex;gap:14px;align-items:flex-start;}
+  .contact-icon{
+    width:40px;height:40px;border-radius:8px;background:#EEF3F9;color:var(--primary);
+    display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+  }
+  .contact-label{font-size:12px;color:var(--text-muted);margin-bottom:2px;}
+  .contact-value{font-size:14px;font-weight:600;color:var(--text);}
+
+  footer{background:var(--primary-dark);color:rgba(255,255,255,0.65);padding:28px 24px;font-size:13px;text-align:center;}
+  footer .admin-entry{color:rgba(255,255,255,0.65);}
+
+  /* Toast */
+  #toast{
+    position:fixed;top:24px;left:50%;transform:translateX(-50%) translateY(-20px);
+    background:var(--success);color:#fff;padding:14px 24px;border-radius:8px;font-size:14px;font-weight:600;
+    box-shadow:0 6px 20px rgba(0,0,0,0.15);opacity:0;pointer-events:none;transition:all .25s;z-index:1000;
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* Modal (admin login) */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(11,45,82,0.55);display:none;
+    align-items:center;justify-content:center;z-index:500;padding:20px;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal-box{background:#fff;border-radius:10px;padding:32px;max-width:380px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,0.2);}
+  .modal-box h3{color:var(--primary);font-size:18px;margin-bottom:20px;}
+  .modal-box .field{margin-bottom:16px;}
+  .modal-actions{display:flex;gap:10px;margin-top:22px;}
+  .modal-actions .btn-primary{flex:1;}
+  .close-x{float:right;cursor:pointer;color:var(--text-muted);font-size:20px;line-height:1;}
+
+  /* Admin dashboard */
+  #adminView{display:none;}
+  #publicView.hidden,#adminView.hidden{display:none;}
+  .admin-header{
+    display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;
+  }
+  .admin-header h2{color:var(--primary);font-size:22px;}
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+  .stat-box{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;}
+  .stat-box .num{font-size:26px;font-weight:700;color:var(--primary);}
+  .stat-box .lbl{font-size:12px;color:var(--text-secondary);margin-top:4px;}
+
+  .filter-row{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+  .filter-btn{
+    border:1px solid var(--border);background:#fff;border-radius:20px;padding:7px 16px;font-size:13px;
+    cursor:pointer;color:var(--text-secondary);
+  }
+  .filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+
+  table{width:100%;border-collapse:collapse;background:#fff;font-size:13px;}
+  thead th{
+    text-align:left;background:#F0F3F7;color:var(--text-secondary);font-weight:600;padding:10px 12px;
+    border-bottom:1px solid var(--border);white-space:nowrap;
+  }
+  tbody td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top;}
+  tbody tr:hover{background:#FAFBFC;}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;}
+  .badge-invest{background:#EEF3F9;color:var(--primary);}
+  .badge-agent{background:var(--warning-bg);color:var(--warning);}
+  select.status-select{
+    height:32px;border:1px solid var(--border);border-radius:6px;font-size:12px;padding:0 8px;background:#fff;
+  }
+  .status-pending{color:var(--warning);}
+  .status-contacted{color:var(--primary);}
+  .status-done{color:var(--success);}
+  .empty-row{text-align:center;color:var(--text-muted);padding:40px 0;}
+  .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px;}
+
+  .disclaimer{
+    background:var(--warning-bg);border:1px solid #F0D48A;color:var(--warning);font-size:12px;
+    padding:10px 14px;border-radius:6px;margin-bottom:20px;
+  }
+
+  @media (max-width:640px){
+    .form-grid{grid-template-columns:1fr;}
+    .contact-card{grid-template-columns:1fr;}
+    .stat-row{grid-template-columns:repeat(2,1fr);}
+    .hero h1{font-size:26px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<!-- Admin Login Modal -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal-box">
+    <span class="close-x" id="closeLogin">&times;</span>
+    <h3 data-i18n="admin_login_title">后台登录</h3>
+    <div class="field">
+      <label data-i18n="admin_account">账号</label>
+      <input type="text" id="loginUser" autocomplete="username">
+    </div>
+    <div class="field">
+      <label data-i18n="admin_password">密码</label>
+      <input type="text" id="loginPass" autocomplete="current-password">
+    </div>
+    <div class="error-msg" id="loginError" style="display:block;min-height:16px;"></div>
+    <div class="modal-actions">
+      <button class="btn-primary" id="loginSubmit" data-i18n="login_btn">登录</button>
+    </div>
+  </div>
+</div>
+
+<!-- PUBLIC VIEW -->
+<div id="publicView">
+  <header>
+    <div class="header-inner">
+      <div class="brand"><span class="mark">GT</span><span data-i18n="brand">环球招商代理平台</span></div>
+      <div class="header-actions">
+        <div class="lang-switch">
+          <button id="langZh" class="active">中文</button>
+          <button id="langEn">EN</button>
+        </div>
+        <span class="admin-entry" id="openLogin" data-i18n="admin_entry">后台登录</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <span class="hero-eyebrow" data-i18n="hero_eyebrow">全球贸易合作网络</span>
+      <h1 data-i18n="hero_title">诚邀全球伙伴，共拓招商与代理合作</h1>
+      <p data-i18n="hero_desc">专注国内外贸易资源对接，欢迎有意向的招商合作伙伴与代理加盟人员提交信息，我们将尽快与您取得联系。</p>
+    </div>
+  </div>
+
+  <main>
+    <div class="card form-card">
+      <div class="section-title" data-i18n="form_title">合作申请</div>
+      <div class="section-sub" data-i18n="form_sub">请填写以下信息，提交后我们将尽快与您联系</div>
+
+      <div class="type-toggle">
+        <div class="type-option selected" data-type="invest" id="typeInvest">
+          <div class="t-title" data-i18n="type_invest">招商合作</div>
+          <div class="t-desc" data-i18n="type_invest_desc">寻求招商资源与产品合作</div>
+        </div>
+        <div class="type-option" data-type="agent" id="typeAgent">
+          <div class="t-title" data-i18n="type_agent">代理加盟</div>
+          <div class="t-desc" data-i18n="type_agent_desc">申请成为区域代理</div>
+        </div>
+      </div>
+
+      <form id="applyForm" novalidate>
+        <div class="form-grid">
+          <div class="field" id="f_name">
+            <label data-i18n="lbl_name">姓名 <span class="req">*</span></label>
+            <input type="text" id="name">
+            <span class="error-msg" data-i18n="err_required">此项为必填</span>
+          </div>
+          <div class="field" id="f_gender">
+            <label data-i18n="lbl_gender">性别 <span class="req">*</span></label>
+            <select id="gender">
+              <option value="" data-i18n="opt_select">请选择</option>
+              <option value="male" data-i18n="opt_male">男</option>
+              <option value="female" data-i18n="opt_female">女</option>
+            </select>
+            <span class="error-msg" data-i18n="err_required">此项为必填</span>
+          </div>
+          <div class="field" id="f_phone">
+            <label data-i18n="lbl_phone">联系方式 <span class="req">*</span></label>
+            <input type="tel" id="phone" placeholder="手机号码">
+            <span class="error-msg" data-i18n="err_required">此项为必填</span>
+          </div>
+          <div class="field" id="f_wechat">
+            <label data-i18n="lbl_wechat">微信 <span class="req">*</span></label>
+            <input type="text" id="wechat">
+            <span class="error-msg" data-i18n="err_required">此项为必填</span>
+          </div>
+          <div class="field" id="f_whatsapp">
+            <label data-i18n="lbl_whatsapp">WhatsApp <span class="opt" data-i18n="opt_label">（选填）</span></label>
+            <input type="text" id="whatsapp">
+          </div>
+          <div class="field full" id="f_category" style="display:none;">
+            <label data-i18n="lbl_category">经营产品类别 <span class="req">*</span></label>
+            <input type="text" id="category" data-i18n-ph="ph_category">
+            <span class="error-msg" data-i18n="err_required">此项为必填</span>
+          </div>
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="btn-primary" data-i18n="submit_btn">提交申请</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="section-title" data-i18n="contact_title">联系我们</div>
+      <div class="section-sub" data-i18n="contact_sub">如有疑问，可通过以下方式直接联系</div>
+      <div class="contact-card">
+        <div class="contact-item">
+          <div class="contact-icon">微</div>
+          <div>
+            <div class="contact-label" data-i18n="lbl_wxwa">微信 / WhatsApp</div>
+            <div class="contact-value">13091271737</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">@</div>
+          <div>
+            <div class="contact-label" data-i18n="lbl_email">邮箱</div>
+            <div class="contact-value">alexandfvkossxjv34@gmail.com</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div data-i18n="footer_text">© 2026 环球招商代理平台. 保留所有权利.</div>
+    <div style="margin-top:8px;"><span class="admin-entry" id="openLogin2" data-i18n="admin_entry">后台登录</span></div>
+  </footer>
+</div>
+
+<!-- ADMIN VIEW -->
+<div id="adminView">
+  <header>
+    <div class="header-inner">
+      <div class="brand"><span class="mark">GT</span><span data-i18n="admin_panel_title">后台管理</span></div>
+      <div class="header-actions">
+        <div class="lang-switch">
+          <button id="langZhA" class="active">中文</button>
+          <button id="langEnA">EN</button>
+        </div>
+        <button class="btn-ghost" id="logoutBtn" data-i18n="logout_btn">退出登录</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="disclaimer" data-i18n="disclaimer_text">
+      提示：当前登录验证与数据存储均在浏览器本地完成，仅适用于演示或个人使用。若需正式上线，建议接入独立后端与数据库以保障账号与数据安全。
+    </div>
+
+    <div class="admin-header">
+      <h2 data-i18n="submissions_title">申请信息</h2>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box"><div class="num" id="statTotal">0</div><div class="lbl" data-i18n="stat_total">总申请数</div></div>
+      <div class="stat-box"><div class="num" id="statInvest">0</div><div class="lbl" data-i18n="stat_invest">招商合作</div></div>
+      <div class="stat-box"><div class="num" id="statAgent">0</div><div class="lbl" data-i18n="stat_agent">代理加盟</div></div>
+      <div class="stat-box"><div class="num" id="statPending">0</div><div class="lbl" data-i18n="stat_pending">待处理</div></div>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-btn active" data-filter="all" data-i18n="filter_all">全部</button>
+      <button class="filter-btn" data-filter="invest" data-i18n="filter_invest">招商合作</button>
+      <button class="filter-btn" data-filter="agent" data-i18n="filter_agent">代理加盟</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="th_time">提交时间</th>
+            <th data-i18n="th_type">类型</th>
+            <th data-i18n="th_name">姓名</th>
+            <th data-i18n="th_gender">性别</th>
+            <th data-i18n="th_phone">联系方式</th>
+            <th data-i18n="th_wechat">微信</th>
+            <th data-i18n="th_whatsapp">WhatsApp</th>
+            <th data-i18n="th_category">产品类别</th>
+            <th data-i18n="th_status">处理状态</th>
+            <th data-i18n="th_action">操作</th>
+          </tr>
+        </thead>
+        <tbody id="submissionsBody"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+
+var STORAGE_KEY = 'gt_trade_submissions_v1';
+var ADMIN_USER = 'admin';
+var ADMIN_PASS = 'admin123';
+
+var i18n = {
+  zh:{
+    brand:'环球招商代理平台', admin_entry:'后台登录',
+    hero_eyebrow:'全球贸易合作网络', hero_title:'诚邀全球伙伴，共拓招商与代理合作',
+    hero_desc:'专注国内外贸易资源对接，欢迎有意向的招商合作伙伴与代理加盟人员提交信息，我们将尽快与您取得联系。',
+    form_title:'合作申请', form_sub:'请填写以下信息，提交后我们将尽快与您联系',
+    type_invest:'招商合作', type_invest_desc:'寻求招商资源与产品合作',
+    type_agent:'代理加盟', type_agent_desc:'申请成为区域代理',
+    lbl_name:'姓名', lbl_gender:'性别', lbl_phone:'联系方式', lbl_wechat:'微信',
+    lbl_whatsapp:'WhatsApp', lbl_category:'经营产品类别',
+    opt_label:'（选填）', opt_select:'请选择', opt_male:'男', opt_female:'女',
+    ph_category:'例如：家用电器、服装、机械设备等',
+    err_required:'此项为必填', submit_btn:'提交申请',
+    contact_title:'联系我们', contact_sub:'如有疑问，可通过以下方式直接联系',
+    lbl_wxwa:'微信 / WhatsApp', lbl_email:'邮箱',
+    footer_text:'© 2026 环球招商代理平台. 保留所有权利.',
+    admin_login_title:'后台登录', admin_account:'账号', admin_password:'密码', login_btn:'登录',
+    login_error:'账号或密码错误',
+    admin_panel_title:'后台管理', logout_btn:'退出登录',
+    disclaimer_text:'提示：当前登录验证与数据存储均在浏览器本地完成，仅适用于演示或个人使用。若需正式上线，建议接入独立后端与数据库以保障账号与数据安全。',
+    submissions_title:'申请信息',
+    stat_total:'总申请数', stat_invest:'招商合作', stat_agent:'代理加盟', stat_pending:'待处理',
+    filter_all:'全部', filter_invest:'招商合作', filter_agent:'代理加盟',
+    th_time:'提交时间', th_type:'类型', th_name:'姓名', th_gender:'性别', th_phone:'联系方式',
+    th_wechat:'微信', th_whatsapp:'WhatsApp', th_category:'产品类别', th_status:'处理状态', th_action:'操作',
+    status_pending:'待处理', status_contacted:'已联系', status_done:'已完成',
+    male:'男', female:'女', empty_text:'暂无申请信息', delete_btn:'删除', confirm_delete:'确定要删除这条信息吗？',
+    toast_submit_ok:'提交成功，感谢您的申请，我们将尽快与您联系！'
+  },
+  en:{
+    brand:'Global Trade Partners', admin_entry:'Admin login',
+    hero_eyebrow:'Global trade cooperation network', hero_title:'Partner with us — investment and agency opportunities',
+    hero_desc:'We connect domestic and international trade resources. Submit your details below and our team will contact you soon.',
+    form_title:'Partnership application', form_sub:'Please fill in the details below. We will contact you after submission.',
+    type_invest:'Investment cooperation', type_invest_desc:'Seeking investment resources and product cooperation',
+    type_agent:'Agency application', type_agent_desc:'Apply to become a regional agent',
+    lbl_name:'Name', lbl_gender:'Gender', lbl_phone:'Phone', lbl_wechat:'WeChat',
+    lbl_whatsapp:'WhatsApp', lbl_category:'Product category',
+    opt_label:'(optional)', opt_select:'Select', opt_male:'Male', opt_female:'Female',
+    ph_category:'e.g. home appliances, apparel, machinery',
+    err_required:'This field is required', submit_btn:'Submit application',
+    contact_title:'Contact us', contact_sub:'For any questions, reach us directly through the channels below',
+    lbl_wxwa:'WeChat / WhatsApp', lbl_email:'Email',
+    footer_text:'© 2026 Global Trade Partners. All rights reserved.',
+    admin_login_title:'Admin login', admin_account:'Username', admin_password:'Password', login_btn:'Log in',
+    login_error:'Incorrect username or password',
+    admin_panel_title:'Admin panel', logout_btn:'Log out',
+    disclaimer_text:'Note: login checks and data storage currently run entirely in the browser, suitable for demo or personal use only. For production use, connect a proper backend and database to protect accounts and data.',
+    submissions_title:'Submissions',
+    stat_total:'Total submissions', stat_invest:'Investment', stat_agent:'Agency', stat_pending:'Pending',
+    filter_all:'All', filter_invest:'Investment', filter_agent:'Agency',
+    th_time:'Submitted', th_type:'Type', th_name:'Name', th_gender:'Gender', th_phone:'Phone',
+    th_wechat:'WeChat', th_whatsapp:'WhatsApp', th_category:'Category', th_status:'Status', th_action:'Action',
+    status_pending:'Pending', status_contacted:'Contacted', status_done:'Done',
+    male:'Male', female:'Female', empty_text:'No submissions yet', delete_btn:'Delete', confirm_delete:'Delete this submission?',
+    toast_submit_ok:'Submitted successfully. Thank you — we will contact you soon!'
+  }
+};
+
+var state = { lang:'zh', selectedType:'invest', filter:'all', isAdmin:false };
+
+function t(key){ return i18n[state.lang][key] || key; }
+
+function applyI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key = el.getAttribute('data-i18n');
+    el.textContent = t(key);
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+    var key = el.getAttribute('data-i18n-ph');
+    el.setAttribute('placeholder', t(key));
+  });
+  document.getElementById('loginError').textContent = '';
+  renderAdminTable();
+}
+
+function setLang(l){
+  state.lang = l;
+  var isZh = l === 'zh';
+  document.getElementById('langZh').classList.toggle('active', isZh);
+  document.getElementById('langEn').classList.toggle('active', !isZh);
+  document.getElementById('langZhA').classList.toggle('active', isZh);
+  document.getElementById('langEnA').classList.toggle('active', !isZh);
+  applyI18n();
+}
+document.getElementById('langZh').onclick = function(){ setLang('zh'); };
+document.getElementById('langEn').onclick = function(){ setLang('en'); };
+document.getElementById('langZhA').onclick = function(){ setLang('zh'); };
+document.getElementById('langEnA').onclick = function(){ setLang('en'); };
+
+/* Type toggle */
+document.getElementById('typeInvest').onclick = function(){ selectType('invest'); };
+document.getElementById('typeAgent').onclick = function(){ selectType('agent'); };
+function selectType(type){
+  state.selectedType = type;
+  document.getElementById('typeInvest').classList.toggle('selected', type==='invest');
+  document.getElementById('typeAgent').classList.toggle('selected', type==='agent');
+  document.getElementById('f_category').style.display = (type==='invest') ? '' : 'none';
+}
+
+/* Toast */
+function showToast(msg){
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); }, 2600);
+}
+
+/* Storage */
+function getSubmissions(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch(e){ return []; }
+}
+function saveSubmissions(list){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+}
+
+/* Form validation + submit */
+function clearFieldError(id){ document.getElementById(id).classList.remove('invalid'); }
+function setFieldError(id){ document.getElementById(id).classList.add('invalid'); }
+
+document.getElementById('applyForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var name = document.getElementById('name').value.trim();
+  var gender = document.getElementById('gender').value;
+  var phone = document.getElementById('phone').value.trim();
+  var wechat = document.getElementById('wechat').value.trim();
+  var whatsapp = document.getElementById('whatsapp').value.trim();
+  var category = document.getElementById('category').value.trim();
+
+  var valid = true;
+  ['f_name','f_gender','f_phone','f_wechat'].forEach(clearFieldError);
+  clearFieldError('f_category');
+
+  if(!name){ setFieldError('f_name'); valid = false; }
+  if(!gender){ setFieldError('f_gender'); valid = false; }
+  if(!phone){ setFieldError('f_phone'); valid = false; }
+  if(!wechat){ setFieldError('f_wechat'); valid = false; }
+  if(state.selectedType === 'invest' && !category){ setFieldError('f_category'); valid = false; }
+
+  if(!valid) return;
+
+  var list = getSubmissions();
+  list.unshift({
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,7),
+    type: state.selectedType,
+    name: name, gender: gender, phone: phone, wechat: wechat,
+    whatsapp: whatsapp, category: state.selectedType === 'invest' ? category : '',
+    status: 'pending',
+    createdAt: new Date().toISOString()
+  });
+  saveSubmissions(list);
+
+  document.getElementById('applyForm').reset();
+  selectType('invest');
+  showToast(t('toast_submit_ok'));
+});
+
+/* Admin login modal */
+function openModal(){
+  document.getElementById('loginModal').classList.add('show');
+  document.getElementById('loginError').textContent = '';
+}
+function closeModal(){ document.getElementById('loginModal').classList.remove('show'); }
+document.getElementById('openLogin').onclick = openModal;
+document.getElementById('openLogin2').onclick = openModal;
+document.getElementById('closeLogin').onclick = closeModal;
+document.getElementById('loginModal').addEventListener('click', function(e){
+  if(e.target === this) closeModal();
+});
+
+document.getElementById('loginSubmit').onclick = function(){
+  var u = document.getElementById('loginUser').value.trim();
+  var p = document.getElementById('loginPass').value.trim();
+  if(u === ADMIN_USER && p === ADMIN_PASS){
+    closeModal();
+    document.getElementById('loginUser').value='';
+    document.getElementById('loginPass').value='';
+    enterAdmin();
+  } else {
+    document.getElementById('loginError').textContent = t('login_error');
+  }
+};
+
+function enterAdmin(){
+  state.isAdmin = true;
+  document.getElementById('publicView').classList.add('hidden');
+  document.getElementById('adminView').style.display = 'block';
+  renderAdminTable();
+}
+document.getElementById('logoutBtn').onclick = function(){
+  state.isAdmin = false;
+  document.getElementById('adminView').style.display = 'none';
+  document.getElementById('publicView').classList.remove('hidden');
+};
+
+/* Admin filters */
+document.querySelectorAll('.filter-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    state.filter = btn.getAttribute('data-filter');
+    renderAdminTable();
+  });
+});
+
+function fmtDate(iso){
+  var d = new Date(iso);
+  var p = function(n){ return n<10 ? '0'+n : n; };
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+}
+
+function renderAdminTable(){
+  var list = getSubmissions();
+  var total = list.length;
+  var investCount = list.filter(function(s){ return s.type==='invest'; }).length;
+  var agentCount = list.filter(function(s){ return s.type==='agent'; }).length;
+  var pendingCount = list.filter(function(s){ return s.status==='pending'; }).length;
+
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statInvest').textContent = investCount;
+  document.getElementById('statAgent').textContent = agentCount;
+  document.getElementById('statPending').textContent = pendingCount;
+
+  var filtered = state.filter === 'all' ? list : list.filter(function(s){ return s.type === state.filter; });
+  var body = document.getElementById('submissionsBody');
+  body.innerHTML = '';
+
+  if(filtered.length === 0){
+    var tr = document.createElement('tr');
+    var td = document.createElement('td');
+    td.colSpan = 10;
+    td.className = 'empty-row';
+    td.textContent = t('empty_text');
+    tr.appendChild(td);
+    body.appendChild(tr);
+    return;
+  }
+
+  filtered.forEach(function(s){
+    var tr = document.createElement('tr');
+
+    var typeLabel = s.type === 'invest' ? t('type_invest') : t('type_agent');
+    var typeBadgeClass = s.type === 'invest' ? 'badge-invest' : 'badge-agent';
+    var genderLabel = s.gender === 'male' ? t('male') : (s.gender === 'female' ? t('female') : '-');
+
+    tr.innerHTML =
+      '<td>'+fmtDate(s.createdAt)+'</td>'+
+      '<td><span class="badge '+typeBadgeClass+'">'+typeLabel+'</span></td>'+
+      '<td>'+escapeHtml(s.name)+'</td>'+
+      '<td>'+genderLabel+'</td>'+
+      '<td>'+escapeHtml(s.phone)+'</td>'+
+      '<td>'+escapeHtml(s.wechat)+'</td>'+
+      '<td>'+escapeHtml(s.whatsapp || '-')+'</td>'+
+      '<td>'+escapeHtml(s.category || '-')+'</td>';
+
+    var statusTd = document.createElement('td');
+    var sel = document.createElement('select');
+    sel.className = 'status-select';
+    ['pending','contacted','done'].forEach(function(val){
+      var opt = document.createElement('option');
+      opt.value = val;
+      opt.textContent = t('status_'+val);
+      if(s.status === val) opt.selected = true;
+      sel.appendChild(opt);
+    });
+    sel.addEventListener('change', function(){
+      updateStatus(s.id, sel.value);
+    });
+    statusTd.appendChild(sel);
+    tr.appendChild(statusTd);
+
+    var actionTd = document.createElement('td');
+    var delBtn = document.createElement('button');
+    delBtn.className = 'btn-danger-outline';
+    delBtn.textContent = t('delete_btn');
+    delBtn.addEventListener('click', function(){
+      if(confirm(t('confirm_delete'))) deleteSubmission(s.id);
+    });
+    actionTd.appendChild(delBtn);
+    tr.appendChild(actionTd);
+
+    body.appendChild(tr);
+  });
+}
+
+function updateStatus(id, status){
+  var list = getSubmissions();
+  var idx = list.findIndex(function(s){ return s.id === id; });
+  if(idx > -1){ list[idx].status = status; saveSubmissions(list); renderAdminTable(); }
+}
+function deleteSubmission(id){
+  var list = getSubmissions().filter(function(s){ return s.id !== id; });
+  saveSubmissions(list);
+  renderAdminTable();
+}
+
+function escapeHtml(str){
+  var div = document.createElement('div');
+  div.textContent = str == null ? '' : str;
+  return div.innerHTML;
+}
+
+/* init */
+selectType('invest');
+applyI18n();
+
+})();
+</script>
+</body>
+</html>
